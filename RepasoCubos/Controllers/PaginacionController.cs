@@ -122,8 +122,9 @@ namespace RepasoCubos.Controllers
                    this.repo.GetGrupoCubisMarcaOutAsync(posicion.Value, marca);
                 ViewData["REGISTROS"] = model.NumeroRegistros;
                 ViewData["MARCA"] = marca;
-                List<string> marcasList = await this.repo.GetAllMarcasCubos();
-                ViewBag.marcas = marcasList;
+                //List<Cubo> marcasList = await this.repo.GetAllMarcasCubos();
+                //ViewBag.marcas = marcasList;
+                ViewData["MARCAS"] = await this.repo.GetAllMarcasCubos();
                 return View(model.Cubos);
             }
         }

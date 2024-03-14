@@ -1,4 +1,6 @@
-﻿namespace RepasoCubos.Models
+﻿using System.ComponentModel.DataAnnotations;
+
+namespace RepasoCubos.Models
 {
     public class ModelPaginacionCubos
     {

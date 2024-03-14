@@ -27,10 +27,6 @@ namespace RepasoCubos.Repositories
     //        , OFICIO, SALARIO, DEPT_NO FROM EMP
     //go
 
-
-
-
-
     //INCLUIR TODOS LOS DATOS DE LA TABLA PA K NO DE ERROR 
     //    create procedure SP_GRUPO_CUBOS
     //(@posicion int)
@@ -125,13 +121,21 @@ namespace RepasoCubos.Repositories
                 (sql, pamPosicion, pamMarca);
             return await consulta.ToListAsync();
         }
-        public async Task<List<string>> GetAllMarcasCubos()
+        public async Task<List<Marcas>> GetAllMarcasCubos()
         {
-            return await this.context.Cubos
-                .Select(c => c.Marca)
-                .Distinct()
-                .ToListAsync();
+            string sql = "ObtenerMarcasDistintas";
+            var consulta = this.context.Marcas.FromSqlRaw(sql);
+            return await consulta.ToListAsync();
         }
+
+        //public async Task<List<string>> GetAllMarcasCubos()
+        //{
+        //    List<string> marcas = await this.context.Cubos
+        //        .Select(c => c.Marca)
+        //        .Distinct()
+        //        .ToListAsync();
+        //    return marcas;
+        //}
 
 
         //EL CONTROLLER NOS VA A DAR UNA POSICION Y UNA MARCA 
