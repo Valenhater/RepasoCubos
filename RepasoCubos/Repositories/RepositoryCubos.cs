@@ -74,6 +74,7 @@ namespace RepasoCubos.Repositories
         {
             this.context = context;
         }
+
         public async Task<int> GetNumeroRegistrosVistaCubos()
         {
             return await this.context.VistaCubos.CountAsync();
@@ -121,12 +122,6 @@ namespace RepasoCubos.Repositories
                 (sql, pamPosicion, pamMarca);
             return await consulta.ToListAsync();
         }
-        public async Task<List<Marcas>> GetAllMarcasCubos()
-        {
-            string sql = "ObtenerMarcasDistintas";
-            var consulta = this.context.Marcas.FromSqlRaw(sql);
-            return await consulta.ToListAsync();
-        }
 
         //public async Task<List<string>> GetAllMarcasCubos()
         //{
@@ -162,6 +157,16 @@ namespace RepasoCubos.Repositories
                 Cubos = cubos
             };
         }
+
+        public async Task<List<string>> ObtenerTodasLasMarcas()
+        {
+            List<string> marcas = await this.context.Cubos
+                .Select(c => c.Marca)
+                .Distinct()
+                .ToListAsync();
+            return marcas;
+        }
+
 
     }
 }

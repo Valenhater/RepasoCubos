@@ -3,7 +3,6 @@
 
 @{
     ViewData["Title"] = "CubosMarcaOut";
-    List<Marcas> marcas = ViewData["Marcas"] as List<Marcas>;
 }
 
 @{
@@ -28,16 +27,15 @@
 
 <form method="post">
     <label>Introduzca marca</label>
-    <select name="marca">
-        @foreach (Marcas mar in marcas)
+    <select name="marca" class="form-control">
+        <option value="">Todas las marcas</option>
+        @foreach (var m in ViewBag.Marcas)
         {
-            <option value="@mar.Marca">
-                @mar.Marca
-            </option>
+            <option value="@m">@m</option>
         }
     </select>
     <button class="btn btn-dark">
-        Buscar cubos
+        Buscar marca
     </button>
 </form>
 

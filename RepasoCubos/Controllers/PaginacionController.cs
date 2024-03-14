@@ -12,6 +12,11 @@ namespace RepasoCubos.Controllers
         {
             this.repo = repo;
         }
+        private async Task InitializeMarcasAsync()
+        {
+            List<string> marcas = await this.repo.ObtenerTodasLasMarcas();
+            ViewBag.Marcas = marcas;
+        }
 
         //PAGINAR DE 1 EN 1 CON ANTERIOR SIGUIENTE ULTIMO Y PRIMERO
         public async Task<IActionResult> PaginacionCubosAs(int? posicion)
@@ -108,9 +113,10 @@ namespace RepasoCubos.Controllers
             return View(cubos);
         }
 
-        public async Task<IActionResult> CubosMarcaOut
-            (int? posicion, string marca)
+        public async Task<IActionResult> CubosMarcaOut(int? posicion, string marca)
         {
+            await InitializeMarcasAsync();
+
             if (posicion == null)
             {
                 posicion = 1;
@@ -118,26 +124,29 @@ namespace RepasoCubos.Controllers
             }
             else
             {
-               ModelPaginacionCubos model = await
-                   this.repo.GetGrupoCubisMarcaOutAsync(posicion.Value, marca);
+                ModelPaginacionCubos model = await this.repo.GetGrupoCubisMarcaOutAsync(posicion.Value, marca);
                 ViewData["REGISTROS"] = model.NumeroRegistros;
                 ViewData["MARCA"] = marca;
-                //List<Cubo> marcasList = await this.repo.GetAllMarcasCubos();
-                //ViewBag.marcas = marcasList;
-                ViewData["MARCAS"] = await this.repo.GetAllMarcasCubos();
                 return View(model.Cubos);
             }
         }
+
         [HttpPost]
-        public async Task<IActionResult> CubosMarcaOut
-            (string marca)
+        public async Task<IActionResult> CubosMarcaOut(string marca)
         {
-            ModelPaginacionCubos model = await
-                this.repo.GetGrupoCubisMarcaOutAsync(1, marca);
+            await InitializeMarcasAsync();
+
+            ModelPaginacionCubos model = await this.repo.GetGrupoCubisMarcaOutAsync(1, marca);
             ViewData["REGISTROS"] = model.NumeroRegistros;
             ViewData["MARCA"] = marca;
             return View(model.Cubos);
         }
+        public async Task<List<string>> ObtenerTodasLasMarcas()
+        {
+            List<string> marcas = await this.repo.ObtenerTodasLasMarcas();
+            return marcas;
+        }
+
     }
 }
 

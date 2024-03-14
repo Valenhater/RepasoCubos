@@ -11,7 +11,6 @@ namespace RepasoCubos.Data
         public DbSet<VistaCubos> VistaCubos { get; set; }
         public DbSet<ModelPaginacionCubos> ModelCubosPaginados { get; set; }
 
-        public DbSet<Marcas> Marcas { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
